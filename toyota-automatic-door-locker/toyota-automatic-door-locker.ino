@@ -18,10 +18,10 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(CAN_INT_PIN), MCP2515_ISR, FALLING); // start interrupt
   CAN.begin(CAN_500KBPS);
 
-  CAN.init_Mask(0, 0, 0x3ff);                         // there are 2 mask in mcp2515, you need to set both of them
+  CAN.init_Mask(0, 0, 0x3ff);
   CAN.init_Mask(1, 0, 0x3ff);
 
-  CAN.init_Filt(0, 0, 0x3BC);                          // toyota universal gear and drive mode address
+  CAN.init_Filt(0, 0, 0x127);
 }
 
 void MCP2515_ISR() {
@@ -32,18 +32,11 @@ void loop() {
   flagRecv = 0;
   CAN.readMsgBuf(&len, gearPacketBuf);
 
-// gear signals are on 0x3bc, park signal is on the 13th bit
-// while drive is on the 47th bit, counting from zero
-
 // lock command is on 0x750
-
-// send lock command when shifting to drive, 47th bit is the 8th bit of line 6
-  if (bitRead(gearPacketBuf[5], 7) == 1) {
+  if (gearPacketBuf[5] == 0x30) {
     CAN.sendMsgBuf(0x750, 0, 8, lockCommand);
   }
-
-// send unlock command when shifting to park, 13th bit is the 6th bit of line 2
-  if (bitRead(gearPacketBuf[1], 5) == 0) {
+  if (gearPacketBuf[5] == 0x00) {
     CAN.sendMsgBuf(0x750, 0, 8, unlockCommand);
   }
 }
