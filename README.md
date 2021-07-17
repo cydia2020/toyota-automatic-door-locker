@@ -1,5 +1,5 @@
 # toyota-automatic-door-locker
-Arduino based automatic door locker for Toyota vehicles
+Arduino based automatic door locker for Toyota Prius, α and Prime
 
 This doesn't work reliably yet, don't use.
 
