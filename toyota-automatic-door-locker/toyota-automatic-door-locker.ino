@@ -15,7 +15,7 @@ char str[20];
 
 void setup() {
   pinMode(A1, OUTPUT);
-  attachInterrupt(digitalPinToInterrupt(CAN_INT_PIN), MCP2515_ISR, FALLING); // start interrupt
+  attachInterrupt(digitalPinToInterrupt(CAN_INT_PIN), MCP2515_ISR, FALLING);
   CAN.begin(CAN_500KBPS);
 
   CAN.init_Mask(0, 0, 0x3ff);
@@ -29,14 +29,16 @@ void MCP2515_ISR() {
 }
 
 void loop() {
-  flagRecv = 0;
-  CAN.readMsgBuf(&len, gearPacketBuf);
+  if (flagRecv) {
+    flagRecv = 0;
+    CAN.readMsgBuf(&len, gearPacketBuf);
 
-// lock command is on 0x750
-  if (gearPacketBuf[5] == 0x30) {
-    CAN.sendMsgBuf(0x750, 0, 8, lockCommand);
-  }
-  if (gearPacketBuf[5] == 0x00) {
-    CAN.sendMsgBuf(0x750, 0, 8, unlockCommand);
+    // lock command is on 0x750
+    if (gearPacketBuf[5] == 0x30) {
+      CAN.sendMsgBuf(0x750, 0, 8, lockCommand);
+    }
+    if (gearPacketBuf[5] == 0x00) {
+      CAN.sendMsgBuf(0x750, 0, 8, unlockCommand);
+    }
   }
 }
