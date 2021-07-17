@@ -6,7 +6,7 @@ const int CAN_INT_PIN = 2;
 
 mcp2515_can CAN(SPI_CS_PIN);
 
-unsigned char flagRecv = 0;
+bool flagRecv = 0;
 unsigned char len = 0;
 unsigned char gearPacketBuf[8];
 unsigned char lockCommand[8] = {0x40, 0x05, 0x30, 0x11, 0x00, 0x40, 0x00, 0x00};
@@ -25,12 +25,12 @@ void setup() {
 }
 
 void MCP2515_ISR() {
-  flagRecv = 1;
+  flagRecv = true;
 }
 
 void loop() {
   if (flagRecv) {
-    flagRecv = 0;
+    flagRecv = false;
     CAN.readMsgBuf(&len, gearPacketBuf);
 
     // lock command is on 0x750
