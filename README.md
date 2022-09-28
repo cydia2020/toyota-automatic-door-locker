@@ -11,3 +11,5 @@ Goal:
 
 #### Sending untested CAN commands to your BCM while the vehicle is turned ON is a BAD IDEA, and could damage your vehicle, leading to expensive ECU swaps and repairs. Please do not try this if you don't know what you are doing.
 #### These commands are only tested on the Toyota Prius (ZVW50/51/52), Prius v (a.k.a Prius alpha)(ZVW40/41), and Corolla (E210). USE AT YOUR OWN RISK!
+#### Different cars will have different BCM signals, this code doing what it does on your car DOES NOT MEAN it is the appropriate code for you car. Please use a CAN Packet sniffer to find and adapt the correct signal before sending it to your vehicle.
+# I AM NOT RESPONSIBLE FOR ANY DAMAGES.
