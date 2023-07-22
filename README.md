@@ -1,3 +1,5 @@
+# this is deprecated, go use this https://github.com/cydia2020/toyota-can-bus-multitool
+
 # toyota-automatic-door-locker
 Arduino based automatic door locker for Toyota Prius, α and Prime
 
